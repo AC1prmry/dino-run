@@ -1,17 +1,25 @@
 package de.ac.core;
 
 import com.snac.core.Glace;
-import de.ac.object.entity.Entity;
+import de.ac.environment.Level;
+import lombok.Getter;
 
+@Getter
 public class DinoRun {
     public static final Glace glace = Glace.INSTANCE;
 
-    static void main() {
+    private final Level level;
+
+    static void main()  {
         glace.start();
         glace.getRenderer().createWindow(1200, 800, "Dino Run");
 
-        new Entity() {
+        new DinoRun();
+    }
 
-        };
+    private DinoRun() {
+        this.level = new Level();
+
+        glace.setTickHook(this.level::onUpdate);
     }
 }
