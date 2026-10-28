@@ -20,10 +20,13 @@ public class Level {
 
     public Level()  {
         this.speed = 4;
-        this.floorParts = new LinkedList<>(List.of(createFloor(), createFloor()));
+        this.floorParts = new LinkedList<>();
 
         assert glace.getRenderer().getFrame() != null
                 : "Frame should be initialized before the constructor gets called";
+
+        addFloor();
+        addFloor();
 
         glace.getRenderer().getFrame().getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
@@ -31,7 +34,7 @@ public class Level {
                 int neededFloorParts = Math.max(2, (e.getComponent().getWidth() / floorParts.getFirst().getWidth()) + 1);
                 if (neededFloorParts > floorParts.size()) {
                     for (int i = 0; i < neededFloorParts - floorParts.size(); i++) {
-                        floorParts.add(createFloor());
+                        addFloor();
                     }
                 } else if (neededFloorParts < floorParts.size()) {
                     for (int i = 0; i < floorParts.size() - neededFloorParts; i++) {
@@ -45,12 +48,34 @@ public class Level {
     }
 
     public void onUpdate() {
-        //Move floors
+        for (int i = 0; i < floorParts.size(); i++) {
+
+            var floor = floorParts.get(i);
+
+            if ((floor.getPosition().getX() - floor.getWidth()) < 0) {
+                var last = floorParts.getLast();
+
+                floor.setInterpolatedRendering(false);
+                floor.getPosition().set(last.getWidth(), floor.getPosition().getY());
+                floor.setInterpolatedRendering(true);
+
+                floorParts.remove(i);
+                floorParts.addLast(floor);
+
+            }
+            //Move every floor
+            floor.getPosition().subtract(5, 0);
+        }
     }
 
-    private Floor createFloor() {
+    private void addFloor() {
         var floor = new Floor();
         glace.getObjectManager().addObject(floor);
-        return floor;
+        double newX = floorParts.isEmpty()
+                ? 0
+                : floorParts.getLast().getWidth() + floorParts.getLast().getPosition().getX();
+        floor.getPosition().set(newX, 10);
+        floorParts.add(floor);
     }
+
 }

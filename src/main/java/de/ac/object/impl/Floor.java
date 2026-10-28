@@ -22,9 +22,4 @@ public class Floor extends AbstractObjectBase<BufferedImage> {
         setWidth(image.getWidth());
         setHeight(image.getHeight());
     }
-
-    @Override
-    protected void onUpdate() {
-
-    }
 }
