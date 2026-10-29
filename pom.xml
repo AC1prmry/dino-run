@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.github.AC1prmry</groupId>
             <artifactId>Glace</artifactId>
-            <version>main-SNAPSHOT</version>
+            <version>fcb0559</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

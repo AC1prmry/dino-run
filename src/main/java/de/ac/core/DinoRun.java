@@ -12,7 +12,7 @@ public class DinoRun {
 
     static void main()  {
         glace.start();
-        glace.getRenderer().createWindow(1200, 800, "Dino Run");
+        glace.getRenderer().createWindow(1200, 700, "Dino Run");
 
         new DinoRun();
     }
